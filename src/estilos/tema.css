@@ -1,0 +1,84 @@
+@import "tailwindcss";
+@import "@fontsource-variable/manrope";
+@import "@fontsource/geist-mono/400.css";
+@import "@fontsource/geist-mono/500.css";
+
+/*
+  Paleta y tokens tomados de docs/LINEA-GRAFICA.md.
+  No se inventa ningún valor aquí: cada color viene medido en ese documento,
+  con su contraste WCAG ya verificado. Si falta un tono, se agrega allá primero.
+*/
+@theme {
+  --font-sans: "Manrope Variable", "Manrope", sans-serif;
+  --font-mono: "Geist Mono", monospace;
+
+  /* Rojo Scire — LINEA-GRAFICA.md §2 */
+  --color-rojo-50: #faf5f5;
+  --color-rojo-100: #f4e7e7;
+  --color-rojo-200: #ecc6c7;
+  --color-rojo-300: #de9c9e;
+  --color-rojo-400: #dd555a;
+  --color-rojo-500: #ac2328;
+  --color-rojo-600: #8c1c21;
+  --color-rojo-700: #6e161a;
+  --color-rojo-800: #551114;
+  --color-rojo-900: #3b0c0e;
+
+  /* Azul Scire — LINEA-GRAFICA.md §2 */
+  --color-azul-50: #f6f7f8;
+  --color-azul-100: #ebecf0;
+  --color-azul-200: #d2d6e0;
+  --color-azul-300: #b0b9c9;
+  --color-azul-400: #8091b2;
+  --color-azul-500: #506285;
+  --color-azul-600: #3f4d69;
+  --color-azul-700: #323d53;
+  --color-azul-800: #262f40;
+  --color-azul-900: #1b212d;
+
+  /* Neutros — LINEA-GRAFICA.md §2 */
+  --color-gris-50: #f8f9fa;
+  --color-gris-100: #f1f2f4;
+  --color-gris-200: #e3e5ea;
+  --color-gris-500: #5f6672;
+  --color-gris-600: #4b5260;
+  --color-gris-900: #1c1f26;
+
+  /* Estados de orden — LINEA-GRAFICA.md §2. El color nunca va solo. */
+  --color-estado-lista-texto: #16713f;
+  --color-estado-lista-fondo: #eaf5ee;
+  --color-estado-proceso-texto: #506285;
+  --color-estado-proceso-fondo: #ebecf0;
+  --color-estado-remitida-texto: #8a5a00;
+  --color-estado-remitida-fondo: #fbf3e2;
+
+  /* Curva de movimiento única — LINEA-GRAFICA.md §7 */
+  --ease-fluida: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+body {
+  background-color: var(--color-gris-50);
+  color: var(--color-gris-900);
+}
+
+/* Globo de texto equilibrado — LINEA-GRAFICA.md §3 */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
