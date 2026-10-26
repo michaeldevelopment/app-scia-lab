@@ -38,4 +38,6 @@ export const rutas = createBrowserRouter([
       { path: "*", Component: NoEncontrado },
     ],
   },
-]);
+], {
+  basename: import.meta.env.BASE_URL,
+});
