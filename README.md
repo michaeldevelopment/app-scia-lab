@@ -86,3 +86,18 @@ Otros pacientes de prueba, mismo patrón: ver `src/datos/fixtures.ts`.
 
 Con esto los cuatro módulos del PRD están completos. Ver `../docs/PRD.md` y
 `../docs/BLUEPRINT.md`.
+
+## Publicarlo (GitHub Pages)
+
+El build sale de `.github/workflows/deploy.yml` y vive en
+`https://michaeldevelopment.github.io/app-scia-lab/`. Dos cosas tienen que
+coincidir o la página sale en blanco:
+
+- **`base` en `vite.config.ts`** debe ser el nombre del repo con barras:
+  `/app-scia-lab/`. El router lo lee de `import.meta.env.BASE_URL`, así que no
+  se escribe dos veces.
+- **Settings → Pages → Source** debe estar en **GitHub Actions**, no en
+  "Deploy from a branch". Con la opción de rama, GitHub publica el repo tal
+  cual: se sirve el `index.html` de desarrollo, que apunta a `/src/main.tsx`,
+  un archivo que no existe compilado — de ahí la pantalla en blanco. La señal
+  en Actions es un run llamado "pages build and deployment" que nadie escribió.
