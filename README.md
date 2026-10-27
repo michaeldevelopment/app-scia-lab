@@ -89,15 +89,34 @@ Con esto los cuatro módulos del PRD están completos. Ver `../docs/PRD.md` y
 
 ## Publicarlo (GitHub Pages)
 
-El build sale de `.github/workflows/deploy.yml` y vive en
-`https://michaeldevelopment.github.io/app-scia-lab/`. Dos cosas tienen que
-coincidir o la página sale en blanco:
+Sin GitHub Actions: GitHub Pages sirve `main` directo desde la raíz del repo,
+así que la raíz tiene que contener el **build compilado**, no el código
+fuente. El flujo es manual:
+
+```sh
+npm run deploy          # compila y pisa index.html/assets/404.html en la raíz
+git add -A && git commit -m "deploy" && git push
+npm run dev:restore     # antes de volver a `npm run dev`
+```
+
+`npm run deploy` (`scripts/deploy.mjs`):
+
+1. Respalda el `index.html` de desarrollo en `index.dev.html`.
+2. Corre `npm run build` (`dist/`).
+3. Copia `dist/assets`, `dist/index.html` y `dist/favicon.svg` a la raíz,
+   pisando el `index.html` de desarrollo con el compilado.
+4. Copia ese `index.html` compilado también a `404.html` (fallback de SPA:
+   sin esto, recargar cualquier ruta que no sea `/` da 404 de GitHub Pages).
+
+Después de correrlo, `index.html` en el working tree queda en su versión
+**compilada** — es la que hay que commitear y pushear. Para volver a
+desarrollar, `npm run dev:restore` lo regresa a la versión fuente guardada en
+`index.dev.html` (ese archivo se commitea, es el respaldo permanente).
+
+Dos cosas tienen que coincidir o la página sale en blanco o en 404:
 
 - **`base` en `vite.config.ts`** debe ser el nombre del repo con barras:
-  `/app-scia-lab/`. El router lo lee de `import.meta.env.BASE_URL`, así que no
+  `/app-scire-lab/`. El router lo lee de `import.meta.env.BASE_URL`, así que no
   se escribe dos veces.
-- **Settings → Pages → Source** debe estar en **GitHub Actions**, no en
-  "Deploy from a branch". Con la opción de rama, GitHub publica el repo tal
-  cual: se sirve el `index.html` de desarrollo, que apunta a `/src/main.tsx`,
-  un archivo que no existe compilado — de ahí la pantalla en blanco. La señal
-  en Actions es un run llamado "pages build and deployment" que nadie escribió.
+- **Settings → Pages → Source** debe estar en **"Deploy from a branch"**,
+  rama `main`, carpeta `/ (root)` — no en "GitHub Actions" (ya no hay workflow).
